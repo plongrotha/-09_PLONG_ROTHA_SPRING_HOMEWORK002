@@ -11,5 +11,5 @@ public class Course {
   private Long courseId;
   private String courseNname;
   private String courseDescription;
-  private Long instructorId;
+  private Instructor instructor;
 }

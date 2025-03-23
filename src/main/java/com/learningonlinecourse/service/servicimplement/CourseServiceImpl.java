@@ -14,30 +14,33 @@ public class CourseServiceImpl implements CourseService {
 
   private CourseRepositoty courseRepositoty;
 
-  @Override
-  public List<Course> getAllCourses(Integer page, Integer size) {
-    return courseRepositoty.getAllCourses();
+  public CourseServiceImpl(CourseRepositoty courseRepositoty) {
+    this.courseRepositoty = courseRepositoty;
   }
 
   @Override
-  public Course createCourse(CourseRequest courseRequest) {
+  public Course saveCourse(CourseRequest courseRequest) {
     return courseRepositoty.savCourse(courseRequest);
   }
 
   @Override
-  public Course getCourseById(Long courseId) {
+  public List<Course> getAllCourses(Integer page, Integer size) {
+    int offset = (page - 1) * size;
+    return courseRepositoty.getAllCourses(offset, size);
+  }
 
-    return null;
+  @Override
+  public Course getCourseById(Long courseId) {
+    return courseRepositoty.getCourseById(courseId);
   }
 
   @Override
   public Course updateCourse(Long courseId, CourseRequest courseRequest) {
-
-    return null;
+    return courseRepositoty.updateCourse(courseId, courseRequest);
   }
 
   @Override
   public void deleteCourse(Long courseId) {
-
+    courseRepositoty.deleteCourse(courseId);
   }
 }

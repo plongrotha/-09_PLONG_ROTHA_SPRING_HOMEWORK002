@@ -9,7 +9,7 @@ public interface CourseService {
 
   List<Course> getAllCourses(Integer page, Integer size);
 
-  Course createCourse(CourseRequest courseRequest);
+  Course saveCourse(CourseRequest courseRequest);
 
   Course getCourseById(Long courseId);
 
