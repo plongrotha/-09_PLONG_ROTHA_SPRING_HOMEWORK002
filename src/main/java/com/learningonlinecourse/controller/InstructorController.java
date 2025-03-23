@@ -84,12 +84,13 @@ public class InstructorController {
   // delete instructor by id
   @Operation(summary = "Delete instructor by id")
   @DeleteMapping("/{instructor-id}")
-  public ResponseEntity<String> deleteInstructorById(@PathVariable("instructor-id") Long id) {
-    Optional<Instructor> instructor = Optional.ofNullable(instructorService.deleteInstructorById(id));
-    if (instructor.isPresent()) {
-      return ResponseEntity.ok("Instructor id " + id + " deleted successfully");
+  public APIResponse<Instructor> deleteInstructorById(@PathVariable("instructor-id") Long id) {
+    Instructor instructor = instructorService.deleteInstructorById(id);
+    if (instructor == null) {
+      return new APIResponse<>("Failed to delete instructor", null, HttpStatus.BAD_REQUEST, LocalDate.now());
     }
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Instructor id " + id + " not found");
+    return new APIResponse<>("Instructor deleted successfully", instructor, HttpStatus.OK, LocalDate.now());
+
   }
 
   // update instructor by id
@@ -97,11 +98,11 @@ public class InstructorController {
   @PutMapping("/{instructor-id}")
   public APIResponse<Instructor> updateInstructorById(@PathVariable("instructor-id") Long id,
       @RequestBody InstructorRequest instructorRequest) {
-    Instructor instructor = instructorService.updateInstructorById(id, instructorRequest);
-    if (instructor == null) {
+    Instructor updatedInstructor = instructorService.updateInstructorById(id, instructorRequest);
+    if (updatedInstructor == null) {
       return new APIResponse<>("Failed to update instructor", null, HttpStatus.BAD_REQUEST, LocalDate.now());
     }
-    return new APIResponse<>("Instructor updated successfully", instructor, HttpStatus.OK, LocalDate.now());
+    return new APIResponse<>("Instructor updated successfully", updatedInstructor, HttpStatus.OK, LocalDate.now());
   }
 
 }

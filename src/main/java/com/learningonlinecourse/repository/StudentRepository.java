@@ -45,4 +45,10 @@ public interface StudentRepository {
       DELETE FROM student WHERE student_id = #{id} RETURNING *;
       """)
   Student deleteStudent(Long id);
+
+  @ResultMap("studentMapper")
+  @Select("""
+      UPDATE student SET student_name = #{req.name}, student_email = #{req.email}, student_phone = #{req.phone} WHERE student_id = #{id} RETURNING *;
+      """)
+  Student updateStudent(Long id, @Param("req") StudentRequest studentRequest);
 }

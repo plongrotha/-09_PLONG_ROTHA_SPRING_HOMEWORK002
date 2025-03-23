@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.learningonlinecourse.model.entity.Instructor;
 import com.learningonlinecourse.model.request.InstructorRequest;
@@ -46,7 +47,9 @@ public interface InstructorRepository {
   Instructor deleteInstructorById(Long id);
 
   @ResultMap("instructorMapper")
-  @Select("""
+  // UPDATE instructor SET instructor_name = #{req.name}, email = #{req.email}
+  // WHERE instructor_id = #{id} RETURNING *;
+  @Update("""
       UPDATE instructor SET instructor_name = #{req.name}, email = #{req.email} WHERE instructor_id = #{id} RETURNING *;
       """)
   Instructor updateInstructorById(Long id, @Param("req") InstructorRequest instructorRequest);

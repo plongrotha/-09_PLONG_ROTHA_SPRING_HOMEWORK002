@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,5 +91,16 @@ public class StudentController {
       return new APIResponse<>("Student id " + id + " is not found", null, HttpStatus.NOT_FOUND, LocalDate.now());
     }
     return new APIResponse<>("Student deleted successfully", student, HttpStatus.OK, LocalDate.now());
+  }
+
+  // update student by id
+  @PutMapping("{student-id}")
+  public APIResponse<Student> updateStudent(@PathVariable("student-id") Long id,
+      @RequestBody StudentRequest studentRequest) {
+    Student student = studentService.updateStudent(id, studentRequest);
+    if (student == null) {
+      return new APIResponse<>("Student id " + id + " is not found", null, HttpStatus.NOT_FOUND, LocalDate.now());
+    }
+    return new APIResponse<>("Student updated successfully", student, HttpStatus.OK, LocalDate.now());
   }
 }
